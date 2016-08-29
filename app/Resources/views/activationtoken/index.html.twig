@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>ActivationToken list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Token</th>
+                <th>Email</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for activationToken in activationTokens %}
+            <tr>
+                <td><a href="{{ path('activation_show', { 'id': activationToken.id }) }}">{{ activationToken.id }}</a></td>
+                <td>{{ activationToken.token }}</td>
+                <td>{{ activationToken.email }}</td>
+                <td>{% if activationToken.created %}{{ activationToken.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('activation_show', { 'id': activationToken.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('activation_edit', { 'id': activationToken.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('activation_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>ActivationToken</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ activationToken.id }}</td>
+            </tr>
+            <tr>
+                <th>Token</th>
+                <td>{{ activationToken.token }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ activationToken.email }}</td>
+            </tr>
+            <tr>
+                <th>Created</th>
+                <td>{% if activationToken.created %}{{ activationToken.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('activation_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('activation_edit', { 'id': activationToken.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3 text-center whiteBackground">
+            <h1 class="text-center">URL Shortener</h1>
+            <p class="text-center"> Paste any URL to shorten it </p>
+
+            <form action="{{ path('new_shortlink') }}" class="form-inline" method="post">
+                <div class="form-group text-center">
+                    <input type="text" name="longUrl" class="form-control" placeholder="Long URl...">
+                </div>
+                <button type="submit" class="btn btn-primary">Shorten URL</button>
+            </form>
+            <br>
+        </div>
+    </div>
+<br>
+
+    {#{% for link in links %}#}
+        {#<ul>#}
+            {#<li><a href="{{ link.shortUrl }}">{{ link.shortUrl }}</a></li>#}
+            {#<li>{{ link.longUrl }}</li>#}
+            {#<li>{{ link.counter }}</li>#}
+        {#</ul>#}
+        {#{{ dump(app.session.get('anonymous_urls')) }}#}
+    {#{% endfor %}#}
+    {{ include('@App/default/links_list.html.twig') }}
+</div>
+{% endblock %}
+

@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>ShortLink list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Longurl</th>
+                <th>Shortcode</th>
+                <th>Created</th>
+                <th>Modified</th>
+                <th>Counter</th>
+                <th>Userid</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for shortLink in shortLinks %}
+            <tr>
+                <td><a href="{{ path('shortlink_show', { 'id': shortLink.id }) }}">{{ shortLink.id }}</a></td>
+                <td>{{ shortLink.longUrl }}</td>
+                <td>{{ shortLink.shortCode }}</td>
+                <td>{% if shortLink.created %}{{ shortLink.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if shortLink.modified %}{{ shortLink.modified|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ shortLink.counter }}</td>
+                <td>{{ shortLink.userId }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('shortlink_show', { 'id': shortLink.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('shortlink_edit', { 'id': shortLink.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('shortlink_new') }}">Create a new entry</a>
+        </li>
+    </ul>
+{% endblock %}

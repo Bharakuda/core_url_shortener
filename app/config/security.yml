@@ -1,0 +1,82 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    providers:
+        chain_provider:
+            chain:
+                providers: [user_db, in_memory]
+        in_memory:
+            memory:
+                users:
+                    foo: { password: $2y$12$5.f/y.MqfdB0qD6OYS2o0uhrvAGWC95xubcdcY4zjbsKLitxjuV1u }
+                    alis:
+#                        password: 12345
+                        password: $2y$12$NeQTkzj8L/a3SZkn1PTahuqbHp0/783HlWWenfENwzcxbMXbKp59a
+                        roles: 'ROLE_ADMIN'
+                    branko:
+                         # password: meQGmPFCP5Ul
+                         password: $2y$12$wvdE1Fjb29hgY6//g/khuedLq3wQOuLbZ/tYqzxI9PfIfBF24fEfa
+                         roles: 'ROLE_USER'
+
+        user_db:
+            entity:
+                class: UserBundle\Entity\User
+#                class: UserBundle:User
+                property: username
+
+    encoders:
+        Symfony\Component\Security\Core\User\User:
+            algorithm: bcrypt
+            cost: 12
+        # This tells the Symfony to use the bcrypt algorithm with a value of 12 for algorithmic cost while encrypting our password
+        UserBundle\Entity\User:
+            algorithm: bcrypt
+            cost: 12
+
+    firewalls:
+        website:
+            anonymous: ~
+#            # activate different ways to authenticate
+#            # http_basic: ~
+#            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
+            form_login:
+                provider: chain_provider
+                login_path: login_form
+                check_path: login_form
+                default_target_path: homepage
+            logout:
+                path:   /logout
+                target: /
+                # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+
+#        guard_new_edit:
+#            pattern: /(new)|(edit)
+#            methods: [GET, POST]
+#            anonymous: ~
+#            http_basic: ~
+
+#        guard_delete:
+#            pattern: /
+#            methods: [DELETE]
+#            anonymous: ~
+#            http_basic: ~
+
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+    access_control:
+        # exclude /login path from firewall
+        - { path: user/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: user/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: user/forgotten_password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: user/account, roles: ROLE_USER }
+#        - { path: user/logout, roles: ROLE_USER }
+#        - { path: user/, roles: ROLE_ADMIN }
+#        - { path: user/, roles: ROLE_ADMIN } # Handle all customer/ routes by checking within the controller
+        # protect any possible auto-generated CRUD actions from everyone's access
+#        - { path: /new, roles: ROLE_ADMIN }
+#        - { path: /edit, roles: ROLE_ADMIN }
+ #       - { path: /, roles: ROLE_ADMIN, methods: [DELETE] }

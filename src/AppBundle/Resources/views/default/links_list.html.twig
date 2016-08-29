@@ -1,0 +1,40 @@
+{% if links is not empty%}
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <p class="text-center lead"> Shortened URL's </p>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Short URL</th>
+                    <th>Long URL</th>
+                    <th>Counter</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if app.user %}
+                    {% for link in links %}
+                        <tr>
+                            <td><a href="{{ link.shortUrl }}">{{ link.shortUrl }}</a></td>
+                            <td>{{ link.longUrl }}</td>
+                            <td>{{ link.counter }}</td>
+                            <td><a href="{{ path('shortlink_delete', { 'id': link.id }) }}">delete</a></td>
+                        </tr>
+                    {% endfor %}
+
+                {% else %}
+                    {% for link in links %}
+                        <tr>
+                            <td><a href="{{ link.shortUrl }}">{{ link.shortUrl }}</a></td>
+                            <td>{{ link.longUrl }}</td>
+                            <td>{{ link.counter }}</td>
+                            <td><a href="{{ path('shortlink_delete', { 'id': link.id }) }}">delete</a></td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}

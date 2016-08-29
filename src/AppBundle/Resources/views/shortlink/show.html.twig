@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h2>Confirm delete action</h2>
+        <br>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Short URL</th>
+                <th>Long URL</th>
+                <th>Counter</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ shortLink.shortUrl }}</a></td>
+                    <td>{{ shortLink.longUrl }}</td>
+                    <td>{{ shortLink.counter }}</td>
+                </tr>
+            </tbody>
+        </table>
+        {{ form_start(delete_form) }}
+        <button type="submit" class="btn btn-primary" value="Delete">Delete</button>
+        {{ form_end(delete_form) }}
+    </div>
+</div>
+{% endblock %}

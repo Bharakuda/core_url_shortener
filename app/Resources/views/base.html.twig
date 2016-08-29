@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <!-- Latest compiled and minified JQuery 3.x -->
+        <script src="//code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    </head>
+    <style>
+        html, body {
+            height: 100%;
+        }
+        .container {
+            background-size: cover;
+            height: 100%;
+            width: 100%;
+            background-position: center;
+            padding-top: 110px;
+        }
+
+        .whiteBackground {
+            background-color: white;
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        .paddingBottom {
+            padding-bottom: 10px;
+        }
+    </style>
+
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navContainer">
+            <div class="navbar-header">
+                <a href="{{ path('homepage') }}" class="navbar-brand">URLShort</a>
+                <!-- Little menu icon -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li role="presentation"><a href="{{ path('homepage') }}">Home</a></li>
+
+                    <li role="presentation">{% if is_granted(expression('"ROLE_USER" in roles or "ROLE_ADMIN" in roles')) %}
+                            <a href="{{ path('user_account') }}">My account</a>
+                        {% else %}
+                            <a href="{{ path('user_new') }}">Register</a>
+                        {% endif %}
+                    </li>
+
+                    <li role="presentation"><a href="{{ path('contact_us') }}">Contact Us</a></li>
+                    <li role="presentation">{% if is_granted(expression('"ROLE_USER" in roles or "ROLE_ADMIN" in roles')) %}
+                            <a href="{{ path('logout') }}">Logout</a>
+                        {% else %}
+                            <a href="{{ path('login_form') }}">Login</a>
+                        {% endif %}
+                    </li>
+                    <li role="presentation">{% if is_granted(expression('"ROLE_ADMIN" in roles')) %}
+                            <a href="{{ path('user_index') }}">Admin Panel</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+        <br><br><br><br>
+
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 text-center">
+                {% for flash_message in app.session.flashBag.get('error') %}
+                    <div class="alert alert-danger">
+                        {{ flash_message }}
+                    </div>
+                {% endfor %}
+
+                {% for flash_message in app.session.flashBag.get('notice') %}
+                    <div class="alert alert-info">
+                        {{ flash_message }}
+                    </div>
+                {% endfor %}
+
+                {% for flash_message in app.session.flashBag.get('success') %}
+                    <div class="alert alert-success">
+                        {{ flash_message }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
